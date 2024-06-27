@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio Stream to WebSocket Server</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            text-align: center;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .controls, .buttons {
+            width: 80%;
+            max-width: 600px;
+            margin: 10px auto;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .control-group label {
+            margin-bottom: 5px;
+        }
+        .control-group input, .control-group select, .control-group button {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #3c3c3c;
+            border-radius: 5px;
+            font-size: 1em;
+            background: #2d2d2d;
+            color: #d4d4d4;
+            width: 100%;
+        }
+        .control-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+        .buttons button {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #3c3c3c;
+            border-radius: 5px;
+            font-size: 1em;
+            background: #2d2d2d;
+            color: #d4d4d4;
+            width: 100%;
+            cursor: pointer;
+        }
+        #transcription {
+            margin: 20px auto;
+            border: 1px solid #3c3c3c;
+            padding: 10px;
+            width: 80%;
+            max-width: 600px;
+            height: 100px;
+            overflow-y: auto;
+            background: #252526;
+            color: #d4d4d4;
+        }
+
+        #summary {
+            margin: 20px auto;
+            border: 1px solid #3c3c3c;
+            padding: 10px;
+            width: 80%;
+            max-width: 600px;
+            height: 100px;
+            overflow-y: auto;
+            background: #252526;
+            color: #d4d4d4;
+        }
+        .status {
+            margin-top: 10px;
+        }
+    </style>
+    <script src='scripts.js'></script>
+</head>
+<body>
+    <h1>Your Real-Time Transcription App</h1>
+    <div class="controls">
+        <div class="control-group">
+            <label class="label" for="websocketAddress">WebSocket Address:</label>
+            <input type="text" id="websocketAddress" value="ws://localhost:8765">
+        </div>
+        <div class="control-group">
+            <label class="label" for="languageSelect">Language:</label>
+            <select id="languageSelect">
+                <option value="multilingual">Multilingual</option>
+                <option value="english">English</option>
+                <option value="persian">Persian</option>
+                <option value="italian">Italian</option>
+                <option value="spanish">Spanish</option>
+                <option value="french">French</option>
+                <option value="german">German</option>
+                <option value="chinese">Chinese</option>
+                <option value="arabic">Arabic</option>
+                <option value="portuguese">Portuguese</option>
+                <option value="russian">Russian</option>
+                <option value="japanese">Japanese</option>
+                <option value="dutch">Dutch</option>
+                <option value="korean">Korean</option>
+                <option value="hindi">Hindi</option>
+                <option value="turkish">Turkish</option>
+                <option value="swedish">Swedish</option>
+                <option value="norwegian">Norwegian</option>
+                <option value="danish">Danish</option>
+                <option value="polish">Polish</option>
+                <option value="finnish">Finnish</option>
+                <option value="thai">Thai</option>
+                <option value="czech">Czech</option>
+                <option value="hungarian">Hungarian</option>
+                <option value="greek">Greek</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label class="label" for="outputLanguageSelect">Output Language:</label>
+            <select id="outputLanguageSelect">
+                <option value="multilingual">Multilingual</option>
+                <option value="english">English</option>
+                <option value="persian">Persian</option>
+                <option value="italian">Italian</option>
+                <option value="spanish">Spanish</option>
+                <option value="french">French</option>
+                <option value="german">German</option>
+                <option value="chinese">Chinese</option>
+                <option value="arabic">Arabic</option>
+                <option value="portuguese">Portuguese</option>
+                <option value="russian">Russian</option>
+                <option value="japanese">Japanese</option>
+                <option value="dutch">Dutch</option>
+                <option value="korean">Korean</option>
+                <option value="hindi">Hindi</option>
+                <option value="turkish">Turkish</option>
+                <option value="swedish">Swedish</option>
+                <option value="norwegian">Norwegian</option>
+                <option value="danish">Danish</option>
+                <option value="polish">Polish</option>
+                <option value="finnish">Finnish</option>
+                <option value="thai">Thai</option>
+                <option value="czech">Czech</option>
+                <option value="hungarian">Hungarian</option>
+                <option value="greek">Greek</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label class="label" for="translateCheckbox">Enable Translation:</label>
+            <input type="checkbox" id="translateCheckbox">
+        </div>
+        <div class="control-group">
+            <label class="label" for="speechTranslationCheckbox">
+                <input type="checkbox" id="speechTranslationCheckbox"> Enable Speech-to-Speech Translation
+            </label>
+        </div>
+        <button onclick="initWebSocket()">Connect</button>
+    </div>
+    <button id="startButton" onclick='startRecording()' disabled>Start Streaming</button>
+    <button id="stopButton" onclick='stopRecording()' disabled>Stop Streaming</button>
+    <button id="summarizeButton" onclick='summarizeText()'>Summarize</button>
+
+    <div id="transcription"></div>
+    <div id="summary"></div>
+    <br/>
+    <div>WebSocket: <span id="webSocketStatus">Not Connected</span></div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+websockets
+speechbrain
+pyannote-audio
+asyncio
+sentence-transformers
+transformers
+faster-whisper
+pyttsx3
+openai-whisper
+nltk
+argostranslate
